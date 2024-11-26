@@ -1,5 +1,5 @@
-A generator of Unicode progress bars.
+# ascii-bar
+_a generator of Unicode progress bars_
+--
 
-You can try it there: http://changaco.net/unicode-progress-bars/
-
-License: [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
+A single bar focused fork of [Changaco/unicode-progress-bars](https://github.com/Changaco/unicode-progress-bars)
