@@ -1,137 +1,105 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Unicode progress bars</title>
-<meta charset="utf-8"/>
-<style>
-noscript {
-    display: inline-block;
-    margin: 1em 0;
-    padding: 8px 14px;
-    color: #b94a48;
-    background-color: #f2dede;
-    border-color: #eed3d7;
-    border-radius: 4px;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-}
+  <head>
+    <title>Unicode progress bars</title>
+    <meta charset="utf-8" />
+    <style>
+      noscript {
+        display: inline-block;
+        margin: 1em 0;
+        padding: 8px 14px;
+        color: #b94a48;
+        background-color: #f2dede;
+        border-color: #eed3d7;
+        border-radius: 4px;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+      }
 
-body { margin: 0; padding: 0; display: inline-block; min-width: 100%; }
-#container { padding: 0 10px; }
+      body {
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+        min-width: 100%;
+        font-family:
+          Helvetica Neue,
+          Helvetica,
+          sans-serif;
+        font-size: 24px;
+      }
 
-table { margin-top: 2em; border-spacing: 1em 0; }
-tr { white-space: nowrap; }
+      input[type="number"] {
+        width: 3em;
+      }
+      label {
+        display: inline-block;
+        margin-right: 1em;
+      }
+    </style>
+    <script>
+      const bars = "⣀⣄⣤⣦⣶⣷⣿";
+      const b_len = bars.length - 1;
+      const empty = bars[0];
+      const full = bars[b_len];
 
-#sans-serif { font-size: 14px; line-height: 18px; }
-#sans-serif tr > :nth-child(1) { font-family: "Helvetica Neue" }
-#sans-serif tr > :nth-child(2) { font-family: Arial }
-#sans-serif tr > :nth-child(3) { font-family: sans-serif }
-
-#serif { font-size: 22px; line-height: 28px; }
-#serif tr > :nth-child(1) { font-family: Georgia }
-#serif tr > :nth-child(2) { font-family: "Times New Roman" }
-#serif tr > :nth-child(3) { font-family: serif }
-
-input[type=number] { width: 3em; }
-label { display: inline-block; margin-right: 1em; }
-</style>
-<script>
-var bar_styles = [
-    '▁▂▃▄▅▆▇█',
-    '⣀⣄⣤⣦⣶⣷⣿',
-    '⣀⣄⣆⣇⣧⣷⣿',
-    '○◔◐◕⬤',
-    '□◱◧▣■',
-    '□◱▨▩■',
-    '□◱▥▦■',
-    '░▒▓█',
-    '░█',
-    '⬜⬛',
-    '▱▰',
-    '▭◼',
-    '▯▮',
-    '◯⬤',
-    '⚪⚫',
-];
-function repeat(s, i) {
-    var r = '';
-    for(var j=0; j<i; j++) r += s;
-    return r;
-}
-function make_bar(p, bar_style, min_size, max_size) {
-    var d, full, m, middle, r, rest, x,
-        min_delta = Number.POSITIVE_INFINITY,
-        full_symbol = bar_style[bar_style.length-1],
-        n = bar_style.length - 1;
-    if(p == 100) return {str: repeat(full_symbol, 10), delta: 0};
-    p = p / 100;
-    for(var i=max_size; i>=min_size; i--) {
-        x = p * i;
-        full = Math.floor(x);
-        rest = x - full;
-        middle = Math.floor(rest * n);
-        if(p != 0 && full == 0 && middle == 0) middle = 1;
-        d = Math.abs(p - (full+middle/n)/i) * 100;
-        if(d < min_delta) {
-            min_delta = d;
-            m = bar_style[middle];
-            if(full == i) m = '';
-            r = repeat(full_symbol, full) + m + repeat(bar_style[0], i-full-1);
+      function repeat(s, i) {
+        var r = "";
+        for (var j = 0; j < i; j++) r += s;
+        return r;
+      }
+      function make_bar(p) {
+        const size = 13;
+        
+        // short circuit for 100% & 0% cases
+        if (p === 100) {
+          return {
+            str: repeat(full, size),
+            delta: 0,
+          };
+        } else if (p === 0) {
+          return {
+            str: repeat(empty, size),
+            delta: 0,
+          };
         }
-    }
-    return {str: r, delta: min_delta};
-}
-function generate() {
-    var r1 = document.getElementById('sans-serif-body'),
-        r2 = document.getElementById('serif-body'),
-        p = new Number(document.getElementById('percentage').value),
-        min_size = new Number(document.getElementById('min-size').value),
-        max_size = new Number(document.getElementById('max-size').value);
-    document.getElementById('sans-serif').style.display = 'table';
-    document.getElementById('serif').style.display = 'table';
-    r1.innerHTML = '';
-    r2.innerHTML = '';
-    var bars = [];
-    for(var i=0; i<bar_styles.length; i++) {
-        bars.push(make_bar(p, bar_styles[i], min_size, max_size));
-    }
-    bars.sort(function (a, b) { return a.delta - b.delta; });
-    for(var i=0; i<bars.length; i++) {
-        bar = '<td>'+bars[i].str+' '+p+'%</td>';
-        delta = '<td>'+bars[i].delta.toPrecision(2)+'%</td>';
-        row = '<tr>'+repeat(bar, 3)+delta+'</tr>'
-        r1.innerHTML += row;
-        r2.innerHTML += row;
-    }
-}
-</script>
-</head>
-<body>
 
-<a href="https://github.com/Changaco/unicode-progress-bars"><img style="float: right; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+        const float_percent = p / 100;
+        const segment_unit = float_percent * size;
+        const su_floor = segment_unit | 0;
+        const middlepiece = Math.max(1, ((segment_unit - su_floor) * b_len) | 0);
+        const delta = Math.min(
+          Number.POSITIVE_INFINITY,
+          Math.abs(p - (su_floor + middlepiece / b_len) / size),
+        );
 
-<div id="container">
 
-<p>This program generates progress bars made of Unicode symbols.</p>
+        return {
+          str: bars[middlepiece].padStart(su_floor+1, full).padEnd(size, empty),
+          delta,
+        };
+      }
+      function generate(evt) {
+        var r1 = document.getElementById("bar-container"),
+          p = Number(document.getElementById("percentage").value);
 
-<form onsubmit="generate(); return false">
-<label>Percentage: <input type="number" min=0 max=100 step="any" id="percentage" /></label>
-<label>Min size: <input type="number" min=1 value=7 id="min-size" /></label>
-<label>Max size: <input type="number" min=1 value=13 id="max-size" /></label>
-<input type="submit" value="Generate" />
-</form>
+        r1.innerHTML = `<div>${make_bar(p).str}</div>`;
+      }
+    </script>
+  </head>
+  <body>    
+    <main id="container">
+      <p>This program generates progress bars made of Unicode symbols.</p>
 
-<noscript>This application requires JavaScript.</noscript>
+      <form onsubmit="generate(); return false">
+        <label
+          >Percentage:
+          <input type="number" min="0" max="100" step="any" id="percentage"
+        /></label>
+        <input type="submit" value="Generate" />
+      </form>
 
-<table id="sans-serif" style="display: none">
-<thead><tr><th>Helvetica Neue<th>Arial<th>sans-serif<th>Delta</thead>
-<tbody id="sans-serif-body"></tbody>
-</table>
+      <noscript>This application requires JavaScript.</noscript>
 
-<table id="serif" style="display: none">
-<thead><tr><th>Georgia<th>Times New Roman<th>serif<th>Delta</thead>
-<tbody id="serif-body"></tbody>
-</table>
-
-</div>
-</body>
+      <div id="bar-container"></div>
+    </main>
+  </body>
 </html>
