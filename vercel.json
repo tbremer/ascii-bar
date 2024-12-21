@@ -1,8 +1,17 @@
 {
+    "functions": {
+        "api/bar.ts": {
+            "maxDuration": 5
+        }
+    },
     "rewrites": [
         {
             "source": "/",
-            "destination": "/generator.html"
+            "destination": "/api/bar"
+        },
+        {
+            "source": "/:percent",
+            "destination": "/api/bar?percent=:percent"
         }
     ]
 }
