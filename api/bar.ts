@@ -1,12 +1,9 @@
 export function GET(req: Request) {
   const url = new URL(req.url);
-  let percent = url.searchParams.get("percent")?.toString();
+  const percent = url.searchParams.get("percent")?.toString();
 
-  if (!percent) percent = "0";
-
-  const parsedPercent = Number.parseInt(percent, 10);
   const body = `
-  ${frontMatter(parsedPercent)}
+  ${frontMatter(percent ? Number.parseInt(percent, 10) : null)}
   ${backMatter}
   `;
 
