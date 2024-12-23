@@ -1,0 +1,18 @@
+{
+  "name": "ascii.bar",
+  "private": true,
+  "scripts": {
+    "build": "tailwindcss -i ./input.css -o ./assets/styles.css",
+    "local-dev": "concurrently 'vc dev' 'tailwindcss -i ./input.css -o ./assets/styles.css --watch'"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "concurrently": "^9.1.0",
+    "tailwindcss": "^3.4.17"
+  },
+  "packageManager": "pnpm@9.14.4+sha256.26a726b633b629a3fabda006f696ae4260954a3632c8054112d7ae89779e5f9a",
+  "engines": {
+    "node": "20.x",
+    "pnpm": "9.14.4"
+  }
+}

@@ -1,17 +1,20 @@
 {
-    "functions": {
-        "api/bar.ts": {
-            "maxDuration": 5
-        }
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "pnpm i",
+  "buildCommand": "pnpm build",
+  "functions": {
+    "api/bar.ts": {
+      "maxDuration": 5
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/api/bar"
     },
-    "rewrites": [
-        {
-            "source": "/",
-            "destination": "/api/bar"
-        },
-        {
-            "source": "/:percent",
-            "destination": "/api/bar?percent=:percent"
-        }
-    ]
+    {
+      "source": "/:percent",
+      "destination": "/api/bar?percent=:percent"
+    }
+  ]
 }
