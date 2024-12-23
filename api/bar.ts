@@ -91,6 +91,7 @@ const frontMatter = (percent?: number | null) => `<!DOCTYPE html>
   <head>
     <title>ascii.bar | unicode progress bars</title>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="assets/styles.css">
   </head>
   <body class="h-full min-h-screen font-mono flex flex-col gap-8">
