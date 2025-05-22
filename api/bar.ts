@@ -93,6 +93,7 @@ const frontMatter = (percent?: number | null) => `<!DOCTYPE html>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="assets/styles.css">
+    <script src="_vercel/insights/script.js" defer="true"></script>
   </head>
   <body class="h-full min-h-screen font-mono flex flex-col gap-8">
     <header class="flex justify-between mb-4 px-8 py-4 border-b-4 border-black">
